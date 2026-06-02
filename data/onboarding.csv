@@ -1,0 +1,101 @@
+"user_id","email","plan","signup_date","country","seats","mrr"
+1,alice.morgan@techcorp.com,Pro,"2024-01-03",United States,5,149.0
+2,ben.shaw@brightworks.io,Starter,"2024-01-05",Germany,1,29.0
+3,carla.diaz@novasoft.com,Pro,"2024-01-07",Spain,3,149.0
+4,david.k@loops.co,Enterprise,"2024-01-08",United States,20,599.0
+5,emma.white@flowbase.com,Starter,"2024-01-10",United Kingdom,1,29.0
+6,frank.n@buildfast.io,Pro,"2024-01-11",France,4,149.0
+7,grace.lee@sprinthq.com,Starter,"2024-01-12",South Korea,1,29.0
+8,hank.vu@databridge.com,Pro,"2024-01-14",Vietnam,5,149.0
+9,iris.chen@cloudnest.ai,Pro,"2024-01-15",China,3,149.0
+10,jack.miller@techcorp.com,Enterprise,"2024-01-16",United States,25,599.0
+11,kate.burns@loopvault.com,Pro,"2024-01-18",Canada,4,149.0
+12,leo.santos@pixeldrop.io,Starter,"2024-01-19",Brazil,1,29.0
+13,mia.jones@techcorp.com,Enterprise,"2024-01-20",United States,30,599.0
+14,noah.kim@stormui.com,Starter,"2024-01-21",South Korea,1,29.0
+15,olivia.w@buildfast.io,Pro,"2024-01-22",France,5,149.0
+16,pete.harris@waveform.com,Starter,"2024-01-23",Australia,1,29.0
+17,quinn.r@databridge.com,Pro,"2024-01-25",Vietnam,3,149.0
+18,rosa.m@novasoft.com,Starter,"2024-01-26",Spain,1,29.0
+19,sam.t@loops.co,Enterprise,"2024-01-28",United States,15,599.0
+20,tina.f@sprinthq.com,Pro,"2024-01-29",South Korea,4,149.0
+21,uma.p@cloudnest.ai,Starter,"2024-01-30",India,1,29.0
+22,victor.a@loopvault.com,Pro,"2024-02-01",Canada,5,149.0
+23,wendy.c@pixeldrop.io,Enterprise,"2024-02-02",Brazil,20,599.0
+24,xander.n@stormui.com,Starter,"2024-02-04",South Korea,1,29.0
+25,yara.o@waveform.com,Pro,"2024-02-05",Australia,3,149.0
+26,zoe.b@techcorp.com,Starter,"2024-02-06",United States,1,29.0
+27,aaron.l@buildfast.io,Enterprise,"2024-02-07",France,22,599.0
+28,bella.g@flowbase.com,Pro,"2024-02-08",United Kingdom,3,149.0
+29,carlos.m@databridge.com,Starter,"2024-02-09",Vietnam,1,29.0
+30,diana.s@cloudnest.ai,Pro,"2024-02-10",China,5,149.0
+31,ethan.r@sprinthq.com,Starter,"2024-02-11",South Korea,1,29.0
+32,fiona.t@loopvault.com,Pro,"2024-02-12",Canada,4,149.0
+33,george.w@novasoft.com,Enterprise,"2024-02-13",Spain,18,599.0
+34,hannah.v@pixeldrop.io,Starter,"2024-02-14",Brazil,1,29.0
+35,ivan.c@techcorp.com,Pro,"2024-02-15",United States,5,149.0
+36,julia.m@stormui.com,Starter,"2024-02-16",South Korea,1,29.0
+37,kevin.p@waveform.com,Pro,"2024-02-17",Australia,3,149.0
+38,laura.b@buildfast.io,Enterprise,"2024-02-18",France,25,599.0
+39,marcus.f@flowbase.com,Pro,"2024-02-20",United Kingdom,4,149.0
+40,nina.a@databridge.com,Starter,"2024-02-21",Vietnam,1,29.0
+41,oscar.h@cloudnest.ai,Pro,"2024-02-22",China,5,149.0
+42,paula.j@sprinthq.com,Starter,"2024-02-23",South Korea,1,29.0
+43,raj.k@loopvault.com,Pro,"2024-02-24",India,3,149.0
+44,sara.l@novasoft.com,Enterprise,"2024-02-25",Spain,20,599.0
+45,tom.n@pixeldrop.io,Starter,"2024-02-26",Brazil,1,29.0
+46,ursula.c@techcorp.com,Pro,"2024-02-27",United States,4,149.0
+47,vince.d@stormui.com,Starter,"2024-02-28",South Korea,1,29.0
+48,wilma.r@waveform.com,Pro,"2024-02-29",Australia,3,149.0
+49,xena.b@buildfast.io,Enterprise,"2024-03-01",France,20,599.0
+50,yusuf.a@flowbase.com,Pro,"2024-03-02",United Kingdom,5,149.0
+51,zelda.g@databridge.com,Starter,"2024-03-03",Vietnam,1,29.0
+52,adam.f@cloudnest.ai,Pro,"2024-03-04",China,3,149.0
+53,bianca.m@sprinthq.com,Starter,"2024-03-05",South Korea,1,29.0
+54,cedric.o@loopvault.com,Pro,"2024-03-06",Canada,4,149.0
+55,dora.p@novasoft.com,Enterprise,"2024-03-07",Spain,22,599.0
+56,eli.q@pixeldrop.io,Starter,"2024-03-08",Brazil,1,29.0
+57,flora.r@techcorp.com,Pro,"2024-03-09",United States,3,149.0
+58,glen.s@stormui.com,Pro,"2024-03-10",South Korea,5,149.0
+59,hilda.t@waveform.com,Starter,"2024-03-11",Australia,1,29.0
+60,igor.u@buildfast.io,Pro,"2024-03-12",France,4,149.0
+61,jade.v@flowbase.com,Enterprise,"2024-03-13",United Kingdom,18,599.0
+62,kurt.w@databridge.com,Starter,"2024-03-14",Vietnam,1,29.0
+63,lily.x@cloudnest.ai,Pro,"2024-03-15",China,5,149.0
+64,mike.y@sprinthq.com,Starter,"2024-03-16",South Korea,1,29.0
+65,nora.z@loopvault.com,Pro,"2024-03-17",Canada,3,149.0
+66,otto.a@novasoft.com,Enterprise,"2024-03-18",Spain,25,599.0
+67,pam.b@pixeldrop.io,Starter,"2024-03-19",Brazil,1,29.0
+68,quin.c@techcorp.com,Pro,"2024-03-20",United States,4,149.0
+69,rita.d@stormui.com,Enterprise,"2024-03-21",South Korea,20,599.0
+70,steve.e@waveform.com,Pro,"2024-03-22",Australia,5,149.0
+71,tara.f@buildfast.io,Starter,"2024-03-23",France,1,29.0
+72,ulrich.g@flowbase.com,Pro,"2024-03-24",United Kingdom,3,149.0
+73,vera.h@databridge.com,Starter,"2024-03-25",Vietnam,1,29.0
+74,will.i@cloudnest.ai,Pro,"2024-03-26",China,4,149.0
+75,xia.j@sprinthq.com,Enterprise,"2024-03-27",South Korea,20,599.0
+76,yael.k@loopvault.com,Starter,"2024-03-28",Canada,1,29.0
+77,zara.l@novasoft.com,Pro,"2024-03-29",Spain,5,149.0
+78,alex.m@pixeldrop.io,Starter,"2024-03-30",Brazil,1,29.0
+79,beth.n@techcorp.com,Pro,"2024-03-31",United States,4,149.0
+80,cal.o@stormui.com,Starter,"2024-04-01",South Korea,1,29.0
+81,dee.p@waveform.com,Pro,"2024-04-02",Australia,3,149.0
+82,ed.q@buildfast.io,Enterprise,"2024-04-03",France,22,599.0
+83,fay.r@flowbase.com,Pro,"2024-04-04",United Kingdom,5,149.0
+84,gus.s@databridge.com,Starter,"2024-04-05",Vietnam,1,29.0
+85,hope.t@cloudnest.ai,Pro,"2024-04-06",China,4,149.0
+86,ian.u@sprinthq.com,Starter,"2024-04-07",South Korea,1,29.0
+87,joy.v@loopvault.com,Enterprise,"2024-04-08",Canada,20,599.0
+88,kai.w@novasoft.com,Pro,"2024-04-09",Spain,3,149.0
+89,lia.x@pixeldrop.io,Starter,"2024-04-10",Brazil,1,29.0
+90,max.y@techcorp.com,Pro,"2024-04-11",United States,5,149.0
+91,neo.z@stormui.com,Starter,"2024-04-12",South Korea,1,29.0
+92,ora.a@waveform.com,Pro,"2024-04-13",Australia,4,149.0
+93,pip.b@buildfast.io,Enterprise,"2024-04-14",France,18,599.0
+94,rob.c@flowbase.com,Pro,"2024-04-15",United Kingdom,3,149.0
+95,sue.d@databridge.com,Starter,"2024-04-16",Vietnam,1,29.0
+96,ted@edatabridge.com,Pro,"2024-04-17",China,4,149.0
+97,uma.f@cloudnest.ai,Starter,"2024-04-18",India,1,29.0
+98,val.g@sprinthq.com,Pro,"2024-04-19",South Korea,3,149.0
+99,walt.h@loopvault.com,Enterprise,"2024-04-20",Canada,20,599.0
+100,wren.i@novasoft.com,Pro,"2024-04-21",Spain,5,149.0

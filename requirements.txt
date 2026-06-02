@@ -1,0 +1,7 @@
+pandas>=2.2
+streamlit>=1.36
+plotly>=5.22
+jupyter>=1.0
+ipykernel>=6.29
+# Local utilities (uncomment if you want to use them)
+# -e ../../dusko_utils

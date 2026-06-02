@@ -1,0 +1,146 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<title>SaaS Onboarding Dashboard</title>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<script src="https://cdn.plot.ly/plotly-2.35.2.min.js"></script>
+<style>
+  :root {
+    --primary: #7F56D9;
+    --gray-50: #F9FAFB;
+    --gray-200: #EAECF0;
+    --gray-500: #667085;
+    --gray-700: #344054;
+    --gray-900: #101828;
+    --success: #12B76A;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    background: var(--gray-50);
+    color: var(--gray-900);
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    -webkit-font-smoothing: antialiased;
+  }
+  .container { max-width: 1280px; margin: 0 auto; padding: 40px 32px 64px; }
+  .page-title { font-size: 30px; font-weight: 600; letter-spacing: -0.02em; margin: 0; }
+  .page-subtitle { font-size: 16px; color: var(--gray-500); margin: 4px 0 32px; }
+  .grid { display: grid; gap: 20px; }
+  .grid-3 { grid-template-columns: repeat(3, 1fr); }
+  .grid-2 { grid-template-columns: repeat(2, 1fr); }
+  @media (max-width: 900px) {
+    .grid-3, .grid-2 { grid-template-columns: 1fr; }
+  }
+  .card {
+    background: #fff;
+    border: 1px solid var(--gray-200);
+    border-radius: 12px;
+    box-shadow: 0 1px 2px rgba(16,24,40,0.05);
+  }
+  .kpi { padding: 24px; }
+  .kpi-label { font-size: 14px; font-weight: 500; color: var(--gray-500); margin-bottom: 8px; }
+  .kpi-value { font-size: 36px; font-weight: 600; letter-spacing: -0.02em; line-height: 1.2; }
+  .chart-card { padding: 20px 24px 12px; margin-bottom: 20px; }
+  .chart-title { font-size: 16px; font-weight: 600; margin: 0 0 4px; }
+  .chart-subtitle { font-size: 14px; color: var(--gray-500); margin: 0 0 12px; }
+  .chart { width: 100%; height: 320px; }
+  .chart-tall { height: 380px; }
+  .row-spacer { margin-top: 20px; }
+</style>
+</head>
+<body>
+  <div class="container">
+    <h1 class="page-title">SaaS Onboarding</h1>
+    <p class="page-subtitle">Jan 03, 2024 — Apr 21, 2024 · 100 signups</p>
+
+    <div class="grid grid-3">
+      <div class="card kpi"><div class="kpi-label">Total MRR</div><div class="kpi-value">$19,130</div></div>
+      <div class="card kpi"><div class="kpi-label">Total Users</div><div class="kpi-value">100</div></div>
+      <div class="card kpi"><div class="kpi-label">Avg MRR / User</div><div class="kpi-value">$191.30</div></div>
+    </div>
+
+    <div class="grid grid-2 row-spacer">
+      <div class="card chart-card">
+        <p class="chart-title">MRR over time</p>
+        <p class="chart-subtitle">Cumulative monthly recurring revenue</p>
+        <div id="chart-mrr" class="chart"></div>
+      </div>
+      <div class="card chart-card">
+        <p class="chart-title">Users by plan</p>
+        <p class="chart-subtitle">Signups across pricing tiers</p>
+        <div id="chart-plan" class="chart"></div>
+      </div>
+    </div>
+
+    <div class="grid grid-2">
+      <div class="card chart-card">
+        <p class="chart-title">Users by country</p>
+        <p class="chart-subtitle">Geographic distribution of signups</p>
+        <div id="chart-country" class="chart chart-tall"></div>
+      </div>
+      <div class="card chart-card">
+        <p class="chart-title">Seats by plan</p>
+        <p class="chart-subtitle">Total licensed seats per tier</p>
+        <div id="chart-seats" class="chart chart-tall"></div>
+      </div>
+    </div>
+  </div>
+
+<script>
+const DATA = {"PRIMARY": "#7F56D9", "COLORWAY": ["#7F56D9", "#2E90FA", "#12B76A", "#F79009", "#F04438"], "total_mrr": "$19,130", "total_users": "100", "avg_mrr": "$191.30", "date_range": "Jan 03, 2024 \u2014 Apr 21, 2024 \u00b7 100 signups", "mrr_dates": ["2024-01-07", "2024-01-14", "2024-01-21", "2024-01-28", "2024-02-04", "2024-02-11", "2024-02-18", "2024-02-25", "2024-03-03", "2024-03-10", "2024-03-17", "2024-03-24", "2024-03-31", "2024-04-07", "2024-04-14", "2024-04-21"], "mrr_values": [327.0, 1282.0, 2836.0, 3791.0, 4746.0, 5879.0, 7582.0, 8686.0, 9819.0, 11072.0, 12205.0, 13908.0, 15041.0, 16174.0, 17877.0, 19130.0], "plan_labels": ["Starter", "Pro", "Enterprise"], "plan_counts": [36, 45, 19], "countries": ["Germany", "India", "United Kingdom", "China", "Canada", "Brazil", "Australia", "Spain", "France", "Vietnam", "United States", "South Korea"], "country_values": [1, 3, 8, 8, 8, 8, 8, 9, 9, 9, 12, 17], "seats": [36, 179, 400]};
+const AXIS_X = { showgrid: false, linecolor: '#EAECF0', tickcolor: '#EAECF0', color: '#667085' };
+const AXIS_Y = { gridcolor: '#EAECF0', zerolinecolor: '#EAECF0', color: '#667085' };
+const FONT = { family: 'Inter, sans-serif', size: 12, color: '#344054' };
+const layoutFor = (xtype, ytype, extra = {}) => ({
+  margin: { l: 48, r: 16, t: 8, b: 40 },
+  paper_bgcolor: '#fff',
+  plot_bgcolor: '#fff',
+  font: { ...FONT },
+  showlegend: false,
+  xaxis: { ...AXIS_X, type: xtype },
+  yaxis: { ...AXIS_Y, type: ytype },
+  ...extra,
+});
+const config = { displayModeBar: false, responsive: true };
+
+Plotly.newPlot('chart-mrr', [{
+  x: DATA.mrr_dates, y: DATA.mrr_values, type: 'scatter', mode: 'lines',
+  fill: 'tozeroy', line: { color: DATA.PRIMARY, width: 2.5 },
+  fillcolor: 'rgba(127, 86, 217, 0.08)',
+  hovertemplate: '%{x|%b %d, %Y}<br><b>$%{y:,.0f}</b><extra></extra>',
+}], layoutFor('date', 'linear', { yaxis: { ...AXIS_Y, type: 'linear', tickprefix: '$', separatethousands: true } }), config);
+
+Plotly.newPlot('chart-plan', [{
+  x: DATA.plan_labels, y: DATA.plan_counts, type: 'bar',
+  marker: { color: DATA.PRIMARY },
+  text: DATA.plan_counts.map(String), textposition: 'outside', cliponaxis: false,
+  textfont: { ...FONT },
+  hovertemplate: '<b>%{x}</b><br>%{y} users<extra></extra>',
+}], layoutFor('category', 'linear', { yaxis: { ...AXIS_Y, type: 'linear', showticklabels: false, rangemode: 'tozero' } }), config);
+
+Plotly.newPlot('chart-country', [{
+  x: DATA.country_values, y: DATA.countries, type: 'bar', orientation: 'h',
+  marker: { color: DATA.PRIMARY },
+  text: DATA.country_values.map(String), textposition: 'outside', cliponaxis: false,
+  textfont: { ...FONT },
+  hovertemplate: '<b>%{y}</b><br>%{x} users<extra></extra>',
+}], layoutFor('linear', 'category', {
+  margin: { l: 120, r: 40, t: 8, b: 32 },
+  xaxis: { ...AXIS_X, type: 'linear', showticklabels: false, rangemode: 'tozero' },
+  yaxis: { ...AXIS_Y, type: 'category', automargin: true },
+}), config);
+
+Plotly.newPlot('chart-seats', [{
+  x: DATA.plan_labels, y: DATA.seats, type: 'bar',
+  marker: { color: [DATA.COLORWAY[2], DATA.COLORWAY[0], DATA.COLORWAY[1]] },
+  text: DATA.seats.map(String), textposition: 'outside', cliponaxis: false,
+  textfont: { ...FONT },
+  hovertemplate: '<b>%{x}</b><br>%{y} seats<extra></extra>',
+}], layoutFor('category', 'linear', { yaxis: { ...AXIS_Y, type: 'linear', showticklabels: false, rangemode: 'tozero' } }), config);
+</script>
+</body>
+</html>
