@@ -13,29 +13,6 @@ Top row: three KPI cards — Total MRR, Total Users, Avg MRR per User.
 Middle: cumulative MRR over time (area) + Users by plan (bar).
 Bottom: Users by country (horizontal bar) + Seats by plan (bar).
 
-## Quick start
-
-### Just view the dashboard
-
-```bash
-open dashboard.html
-```
-
-### Rebuild `dashboard.html` from the CSV
-
-```bash
-bash setup.sh
-source .venv/bin/activate
-python build_html.py
-```
-
-### Run the Streamlit version
-
-```bash
-streamlit run dashboard.py
-```
-
-`setup.sh` creates `.venv`, installs `requirements.txt`, and registers a Jupyter kernel for the notebook.
 
 ## Project layout
 
