@@ -16,7 +16,6 @@
     --gray-500: #667085;
     --gray-700: #344054;
     --gray-900: #101828;
-    --success: #12B76A;
   }
   * { box-sizing: border-box; }
   body {
@@ -26,20 +25,54 @@
     font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
     -webkit-font-smoothing: antialiased;
   }
-  .container { max-width: 1280px; margin: 0 auto; padding: 40px 32px 64px; }
+  button, select { font: inherit; }
+  .container { width: 100%; max-width: 1120px; margin: 0 auto; padding: 40px 32px 64px; }
   .page-title { font-size: 30px; font-weight: 600; letter-spacing: -0.02em; margin: 0; }
-  .page-subtitle { font-size: 16px; color: var(--gray-500); margin: 4px 0 32px; }
+  .page-subtitle { font-size: 16px; color: var(--gray-500); margin: 4px 0 24px; }
+  .filters {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 220px));
+    gap: 16px;
+    background: #fff;
+    border: 1px solid var(--gray-200);
+    border-radius: 12px;
+    box-shadow: 0 1px 2px rgba(16, 24, 40, 0.05);
+    padding: 16px 20px 20px;
+    margin-bottom: 24px;
+  }
+  .filter { display: flex; flex-direction: column; gap: 6px; }
+  .filter label { font-size: 13px; font-weight: 600; color: var(--gray-700); }
+  .filter select {
+    width: 100%;
+    min-height: 44px;
+    border: 1px solid var(--gray-200);
+    border-radius: 8px;
+    background-color: #fff;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12' fill='none' stroke='%23667085' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m3 4.5 3 3 3-3'/%3E%3C/svg%3E");
+    background-position: right 12px center;
+    background-repeat: no-repeat;
+    background-size: 12px 12px;
+    color: var(--gray-900);
+    padding: 0 40px 0 12px;
+    cursor: pointer;
+    -webkit-appearance: none;
+    appearance: none;
+    transition: border-color 180ms ease, box-shadow 180ms ease;
+  }
+  .filter select:hover { border-color: var(--gray-500); }
+  .filter select:focus-visible {
+    outline: 0;
+    border-color: var(--primary);
+    box-shadow: 0 0 0 3px rgba(127, 86, 217, 0.16);
+  }
   .grid { display: grid; gap: 20px; }
   .grid-3 { grid-template-columns: repeat(3, 1fr); }
   .grid-2 { grid-template-columns: repeat(2, 1fr); }
-  @media (max-width: 900px) {
-    .grid-3, .grid-2 { grid-template-columns: 1fr; }
-  }
   .card {
     background: #fff;
     border: 1px solid var(--gray-200);
     border-radius: 12px;
-    box-shadow: 0 1px 2px rgba(16,24,40,0.05);
+    box-shadow: 0 1px 2px rgba(16, 24, 40, 0.05);
   }
   .kpi { padding: 24px; }
   .kpi-label { font-size: 14px; font-weight: 500; color: var(--gray-500); margin-bottom: 8px; }
@@ -47,54 +80,91 @@
   .chart-card { padding: 20px 24px 12px; margin-bottom: 20px; }
   .chart-title { font-size: 16px; font-weight: 600; margin: 0 0 4px; }
   .chart-subtitle { font-size: 14px; color: var(--gray-500); margin: 0 0 12px; }
-  .chart { width: 100%; height: 320px; }
+  .chart { width: 100%; height: 320px; cursor: pointer; }
+  .chart, .chart * { cursor: pointer !important; }
   .chart-tall { height: 380px; }
   .row-spacer { margin-top: 20px; }
+  @media (max-width: 900px) {
+    .grid-3, .grid-2 { grid-template-columns: 1fr; }
+  }
+  @media (max-width: 560px) {
+    .container { padding: 28px 16px 48px; }
+    .filters { grid-template-columns: 1fr; }
+    .kpi { padding: 20px; }
+    .chart-card { padding: 18px 16px 10px; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after { scroll-behavior: auto !important; transition-duration: 0.01ms !important; }
+  }
 </style>
 </head>
 <body>
   <div class="container">
     <h1 class="page-title">SaaS Onboarding</h1>
-    <p class="page-subtitle">Jan 03, 2024 — Apr 21, 2024 · 100 signups</p>
+    <p id="page-subtitle" class="page-subtitle" aria-live="polite">Loading signups…</p>
 
-    <div class="grid grid-3">
-      <div class="card kpi"><div class="kpi-label">Total MRR</div><div class="kpi-value">$19,130</div></div>
-      <div class="card kpi"><div class="kpi-label">Total Users</div><div class="kpi-value">100</div></div>
-      <div class="card kpi"><div class="kpi-label">Avg MRR / User</div><div class="kpi-value">$191.30</div></div>
-    </div>
+    <section class="filters" aria-label="Dashboard filters">
+      <div class="filter">
+        <label for="plan-filter">Plan</label>
+        <select id="plan-filter">
+          <option value="all">All plans</option>
+          <option value="Pro">Pro</option><option value="Starter">Starter</option><option value="Enterprise">Enterprise</option>
+        </select>
+      </div>
+      <div class="filter">
+        <label for="month-filter">Month</label>
+        <select id="month-filter">
+          <option value="all">All months</option>
+          <option value="2024-01">Jan 2024</option><option value="2024-02">Feb 2024</option><option value="2024-03">Mar 2024</option><option value="2024-04">Apr 2024</option>
+        </select>
+      </div>
+    </section>
 
-    <div class="grid grid-2 row-spacer">
-      <div class="card chart-card">
+    <section class="grid grid-3" aria-label="Key performance indicators">
+      <article class="card kpi"><div class="kpi-label">Total MRR</div><div id="total-mrr" class="kpi-value">—</div></article>
+      <article class="card kpi"><div class="kpi-label">Total Users</div><div id="total-users" class="kpi-value">—</div></article>
+      <article class="card kpi"><div class="kpi-label">Avg MRR / User</div><div id="avg-mrr" class="kpi-value">—</div></article>
+    </section>
+
+    <section class="grid grid-2 row-spacer">
+      <article class="card chart-card">
         <p class="chart-title">MRR over time</p>
         <p class="chart-subtitle">Cumulative monthly recurring revenue</p>
         <div id="chart-mrr" class="chart"></div>
-      </div>
-      <div class="card chart-card">
+      </article>
+      <article class="card chart-card">
         <p class="chart-title">Users by plan</p>
         <p class="chart-subtitle">Signups across pricing tiers</p>
         <div id="chart-plan" class="chart"></div>
-      </div>
-    </div>
+      </article>
+    </section>
 
-    <div class="grid grid-2">
-      <div class="card chart-card">
+    <section class="grid grid-2">
+      <article class="card chart-card">
         <p class="chart-title">Users by country</p>
         <p class="chart-subtitle">Geographic distribution of signups</p>
-        <div id="chart-country" class="chart chart-tall"></div>
-      </div>
-      <div class="card chart-card">
+        <div id="chart-country" class="chart chart-tall" role="img" aria-label="Users by country bar chart"></div>
+      </article>
+      <article class="card chart-card">
         <p class="chart-title">Seats by plan</p>
         <p class="chart-subtitle">Total licensed seats per tier</p>
         <div id="chart-seats" class="chart chart-tall"></div>
-      </div>
-    </div>
+      </article>
+    </section>
   </div>
 
 <script>
-const DATA = {"PRIMARY": "#7F56D9", "COLORWAY": ["#7F56D9", "#2E90FA", "#12B76A", "#F79009", "#F04438"], "total_mrr": "$19,130", "total_users": "100", "avg_mrr": "$191.30", "date_range": "Jan 03, 2024 \u2014 Apr 21, 2024 \u00b7 100 signups", "mrr_dates": ["2024-01-07", "2024-01-14", "2024-01-21", "2024-01-28", "2024-02-04", "2024-02-11", "2024-02-18", "2024-02-25", "2024-03-03", "2024-03-10", "2024-03-17", "2024-03-24", "2024-03-31", "2024-04-07", "2024-04-14", "2024-04-21"], "mrr_values": [327.0, 1282.0, 2836.0, 3791.0, 4746.0, 5879.0, 7582.0, 8686.0, 9819.0, 11072.0, 12205.0, 13908.0, 15041.0, 16174.0, 17877.0, 19130.0], "plan_labels": ["Starter", "Pro", "Enterprise"], "plan_counts": [36, 45, 19], "countries": ["Germany", "India", "United Kingdom", "China", "Canada", "Brazil", "Australia", "Spain", "France", "Vietnam", "United States", "South Korea"], "country_values": [1, 3, 8, 8, 8, 8, 8, 9, 9, 9, 12, 17], "seats": [36, 179, 400]};
+const DATA = {"PRIMARY":"#7F56D9","COLORWAY":["#7F56D9","#2E90FA","#12B76A","#F79009","#F04438"],"plan_options":["Pro","Starter","Enterprise"],"month_options":[{"value":"2024-01","label":"Jan 2024"},{"value":"2024-02","label":"Feb 2024"},{"value":"2024-03","label":"Mar 2024"},{"value":"2024-04","label":"Apr 2024"}],"rows":[{"plan":"Pro","signup_date":"2024-01-03","country":"United States","seats":5,"mrr":149.0},{"plan":"Starter","signup_date":"2024-01-05","country":"Germany","seats":1,"mrr":29.0},{"plan":"Pro","signup_date":"2024-01-07","country":"Spain","seats":3,"mrr":149.0},{"plan":"Enterprise","signup_date":"2024-01-08","country":"United States","seats":20,"mrr":599.0},{"plan":"Starter","signup_date":"2024-01-10","country":"United Kingdom","seats":1,"mrr":29.0},{"plan":"Pro","signup_date":"2024-01-11","country":"France","seats":4,"mrr":149.0},{"plan":"Starter","signup_date":"2024-01-12","country":"South Korea","seats":1,"mrr":29.0},{"plan":"Pro","signup_date":"2024-01-14","country":"Vietnam","seats":5,"mrr":149.0},{"plan":"Pro","signup_date":"2024-01-15","country":"China","seats":3,"mrr":149.0},{"plan":"Enterprise","signup_date":"2024-01-16","country":"United States","seats":25,"mrr":599.0},{"plan":"Pro","signup_date":"2024-01-18","country":"Canada","seats":4,"mrr":149.0},{"plan":"Starter","signup_date":"2024-01-19","country":"Brazil","seats":1,"mrr":29.0},{"plan":"Enterprise","signup_date":"2024-01-20","country":"United States","seats":30,"mrr":599.0},{"plan":"Starter","signup_date":"2024-01-21","country":"South Korea","seats":1,"mrr":29.0},{"plan":"Pro","signup_date":"2024-01-22","country":"France","seats":5,"mrr":149.0},{"plan":"Starter","signup_date":"2024-01-23","country":"Australia","seats":1,"mrr":29.0},{"plan":"Pro","signup_date":"2024-01-25","country":"Vietnam","seats":3,"mrr":149.0},{"plan":"Starter","signup_date":"2024-01-26","country":"Spain","seats":1,"mrr":29.0},{"plan":"Enterprise","signup_date":"2024-01-28","country":"United States","seats":15,"mrr":599.0},{"plan":"Pro","signup_date":"2024-01-29","country":"South Korea","seats":4,"mrr":149.0},{"plan":"Starter","signup_date":"2024-01-30","country":"India","seats":1,"mrr":29.0},{"plan":"Pro","signup_date":"2024-02-01","country":"Canada","seats":5,"mrr":149.0},{"plan":"Enterprise","signup_date":"2024-02-02","country":"Brazil","seats":20,"mrr":599.0},{"plan":"Starter","signup_date":"2024-02-04","country":"South Korea","seats":1,"mrr":29.0},{"plan":"Pro","signup_date":"2024-02-05","country":"Australia","seats":3,"mrr":149.0},{"plan":"Starter","signup_date":"2024-02-06","country":"United States","seats":1,"mrr":29.0},{"plan":"Enterprise","signup_date":"2024-02-07","country":"France","seats":22,"mrr":599.0},{"plan":"Pro","signup_date":"2024-02-08","country":"United Kingdom","seats":3,"mrr":149.0},{"plan":"Starter","signup_date":"2024-02-09","country":"Vietnam","seats":1,"mrr":29.0},{"plan":"Pro","signup_date":"2024-02-10","country":"China","seats":5,"mrr":149.0},{"plan":"Starter","signup_date":"2024-02-11","country":"South Korea","seats":1,"mrr":29.0},{"plan":"Pro","signup_date":"2024-02-12","country":"Canada","seats":4,"mrr":149.0},{"plan":"Enterprise","signup_date":"2024-02-13","country":"Spain","seats":18,"mrr":599.0},{"plan":"Starter","signup_date":"2024-02-14","country":"Brazil","seats":1,"mrr":29.0},{"plan":"Pro","signup_date":"2024-02-15","country":"United States","seats":5,"mrr":149.0},{"plan":"Starter","signup_date":"2024-02-16","country":"South Korea","seats":1,"mrr":29.0},{"plan":"Pro","signup_date":"2024-02-17","country":"Australia","seats":3,"mrr":149.0},{"plan":"Enterprise","signup_date":"2024-02-18","country":"France","seats":25,"mrr":599.0},{"plan":"Pro","signup_date":"2024-02-20","country":"United Kingdom","seats":4,"mrr":149.0},{"plan":"Starter","signup_date":"2024-02-21","country":"Vietnam","seats":1,"mrr":29.0},{"plan":"Pro","signup_date":"2024-02-22","country":"China","seats":5,"mrr":149.0},{"plan":"Starter","signup_date":"2024-02-23","country":"South Korea","seats":1,"mrr":29.0},{"plan":"Pro","signup_date":"2024-02-24","country":"India","seats":3,"mrr":149.0},{"plan":"Enterprise","signup_date":"2024-02-25","country":"Spain","seats":20,"mrr":599.0},{"plan":"Starter","signup_date":"2024-02-26","country":"Brazil","seats":1,"mrr":29.0},{"plan":"Pro","signup_date":"2024-02-27","country":"United States","seats":4,"mrr":149.0},{"plan":"Starter","signup_date":"2024-02-28","country":"South Korea","seats":1,"mrr":29.0},{"plan":"Pro","signup_date":"2024-02-29","country":"Australia","seats":3,"mrr":149.0},{"plan":"Enterprise","signup_date":"2024-03-01","country":"France","seats":20,"mrr":599.0},{"plan":"Pro","signup_date":"2024-03-02","country":"United Kingdom","seats":5,"mrr":149.0},{"plan":"Starter","signup_date":"2024-03-03","country":"Vietnam","seats":1,"mrr":29.0},{"plan":"Pro","signup_date":"2024-03-04","country":"China","seats":3,"mrr":149.0},{"plan":"Starter","signup_date":"2024-03-05","country":"South Korea","seats":1,"mrr":29.0},{"plan":"Pro","signup_date":"2024-03-06","country":"Canada","seats":4,"mrr":149.0},{"plan":"Enterprise","signup_date":"2024-03-07","country":"Spain","seats":22,"mrr":599.0},{"plan":"Starter","signup_date":"2024-03-08","country":"Brazil","seats":1,"mrr":29.0},{"plan":"Pro","signup_date":"2024-03-09","country":"United States","seats":3,"mrr":149.0},{"plan":"Pro","signup_date":"2024-03-10","country":"South Korea","seats":5,"mrr":149.0},{"plan":"Starter","signup_date":"2024-03-11","country":"Australia","seats":1,"mrr":29.0},{"plan":"Pro","signup_date":"2024-03-12","country":"France","seats":4,"mrr":149.0},{"plan":"Enterprise","signup_date":"2024-03-13","country":"United Kingdom","seats":18,"mrr":599.0},{"plan":"Starter","signup_date":"2024-03-14","country":"Vietnam","seats":1,"mrr":29.0},{"plan":"Pro","signup_date":"2024-03-15","country":"China","seats":5,"mrr":149.0},{"plan":"Starter","signup_date":"2024-03-16","country":"South Korea","seats":1,"mrr":29.0},{"plan":"Pro","signup_date":"2024-03-17","country":"Canada","seats":3,"mrr":149.0},{"plan":"Enterprise","signup_date":"2024-03-18","country":"Spain","seats":25,"mrr":599.0},{"plan":"Starter","signup_date":"2024-03-19","country":"Brazil","seats":1,"mrr":29.0},{"plan":"Pro","signup_date":"2024-03-20","country":"United States","seats":4,"mrr":149.0},{"plan":"Enterprise","signup_date":"2024-03-21","country":"South Korea","seats":20,"mrr":599.0},{"plan":"Pro","signup_date":"2024-03-22","country":"Australia","seats":5,"mrr":149.0},{"plan":"Starter","signup_date":"2024-03-23","country":"France","seats":1,"mrr":29.0},{"plan":"Pro","signup_date":"2024-03-24","country":"United Kingdom","seats":3,"mrr":149.0},{"plan":"Starter","signup_date":"2024-03-25","country":"Vietnam","seats":1,"mrr":29.0},{"plan":"Pro","signup_date":"2024-03-26","country":"China","seats":4,"mrr":149.0},{"plan":"Enterprise","signup_date":"2024-03-27","country":"South Korea","seats":20,"mrr":599.0},{"plan":"Starter","signup_date":"2024-03-28","country":"Canada","seats":1,"mrr":29.0},{"plan":"Pro","signup_date":"2024-03-29","country":"Spain","seats":5,"mrr":149.0},{"plan":"Starter","signup_date":"2024-03-30","country":"Brazil","seats":1,"mrr":29.0},{"plan":"Pro","signup_date":"2024-03-31","country":"United States","seats":4,"mrr":149.0},{"plan":"Starter","signup_date":"2024-04-01","country":"South Korea","seats":1,"mrr":29.0},{"plan":"Pro","signup_date":"2024-04-02","country":"Australia","seats":3,"mrr":149.0},{"plan":"Enterprise","signup_date":"2024-04-03","country":"France","seats":22,"mrr":599.0},{"plan":"Pro","signup_date":"2024-04-04","country":"United Kingdom","seats":5,"mrr":149.0},{"plan":"Starter","signup_date":"2024-04-05","country":"Vietnam","seats":1,"mrr":29.0},{"plan":"Pro","signup_date":"2024-04-06","country":"China","seats":4,"mrr":149.0},{"plan":"Starter","signup_date":"2024-04-07","country":"South Korea","seats":1,"mrr":29.0},{"plan":"Enterprise","signup_date":"2024-04-08","country":"Canada","seats":20,"mrr":599.0},{"plan":"Pro","signup_date":"2024-04-09","country":"Spain","seats":3,"mrr":149.0},{"plan":"Starter","signup_date":"2024-04-10","country":"Brazil","seats":1,"mrr":29.0},{"plan":"Pro","signup_date":"2024-04-11","country":"United States","seats":5,"mrr":149.0},{"plan":"Starter","signup_date":"2024-04-12","country":"South Korea","seats":1,"mrr":29.0},{"plan":"Pro","signup_date":"2024-04-13","country":"Australia","seats":4,"mrr":149.0},{"plan":"Enterprise","signup_date":"2024-04-14","country":"France","seats":18,"mrr":599.0},{"plan":"Pro","signup_date":"2024-04-15","country":"United Kingdom","seats":3,"mrr":149.0},{"plan":"Starter","signup_date":"2024-04-16","country":"Vietnam","seats":1,"mrr":29.0},{"plan":"Pro","signup_date":"2024-04-17","country":"China","seats":4,"mrr":149.0},{"plan":"Starter","signup_date":"2024-04-18","country":"India","seats":1,"mrr":29.0},{"plan":"Pro","signup_date":"2024-04-19","country":"South Korea","seats":3,"mrr":149.0},{"plan":"Enterprise","signup_date":"2024-04-20","country":"Canada","seats":20,"mrr":599.0},{"plan":"Pro","signup_date":"2024-04-21","country":"Spain","seats":5,"mrr":149.0}]};
+const state = { plan: 'all', month: 'all', country: null };
 const AXIS_X = { showgrid: false, linecolor: '#EAECF0', tickcolor: '#EAECF0', color: '#667085' };
 const AXIS_Y = { gridcolor: '#EAECF0', zerolinecolor: '#EAECF0', color: '#667085' };
 const FONT = { family: 'Inter, sans-serif', size: 12, color: '#344054' };
+const config = { displayModeBar: false, responsive: true };
+const numberFormat = new Intl.NumberFormat('en-US');
+const currencyWhole = new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD', maximumFractionDigits: 0 });
+const currencyCents = new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD', minimumFractionDigits: 2, maximumFractionDigits: 2 });
+const dateFormat = new Intl.DateTimeFormat('en-US', { month: 'short', day: '2-digit', year: 'numeric', timeZone: 'UTC' });
+
 const layoutFor = (xtype, ytype, extra = {}) => ({
   margin: { l: 48, r: 16, t: 8, b: 40 },
   paper_bgcolor: '#fff',
@@ -105,42 +175,165 @@ const layoutFor = (xtype, ytype, extra = {}) => ({
   yaxis: { ...AXIS_Y, type: ytype },
   ...extra,
 });
-const config = { displayModeBar: false, responsive: true };
 
-Plotly.newPlot('chart-mrr', [{
-  x: DATA.mrr_dates, y: DATA.mrr_values, type: 'scatter', mode: 'lines',
-  fill: 'tozeroy', line: { color: DATA.PRIMARY, width: 2.5 },
-  fillcolor: 'rgba(127, 86, 217, 0.08)',
-  hovertemplate: '%{x|%b %d, %Y}<br><b>$%{y:,.0f}</b><extra></extra>',
-}], layoutFor('date', 'linear', { yaxis: { ...AXIS_Y, type: 'linear', tickprefix: '$', separatethousands: true } }), config);
+const parseDate = value => new Date(`${value}T00:00:00Z`);
+const formatDate = value => dateFormat.format(parseDate(value));
+const baseRows = () => DATA.rows.filter(row => (
+  (state.plan === 'all' || row.plan === state.plan)
+  && (state.month === 'all' || row.signup_date.startsWith(state.month))
+));
+const metricRows = rows => state.country ? rows.filter(row => row.country === state.country) : rows;
 
-Plotly.newPlot('chart-plan', [{
-  x: DATA.plan_labels, y: DATA.plan_counts, type: 'bar',
-  marker: { color: DATA.PRIMARY },
-  text: DATA.plan_counts.map(String), textposition: 'outside', cliponaxis: false,
-  textfont: { ...FONT },
-  hovertemplate: '<b>%{x}</b><br>%{y} users<extra></extra>',
-}], layoutFor('category', 'linear', { yaxis: { ...AXIS_Y, type: 'linear', showticklabels: false, rangemode: 'tozero' } }), config);
+const mrrSeries = rows => {
+  const weeklyMrr = new Map();
+  rows.forEach(row => {
+    const date = parseDate(row.signup_date);
+    const mondayOffset = (date.getUTCDay() + 6) % 7;
+    date.setUTCDate(date.getUTCDate() - mondayOffset + 6);
+    const week = date.toISOString().slice(0, 10);
+    weeklyMrr.set(week, (weeklyMrr.get(week) || 0) + row.mrr);
+  });
+  let cumulative = 0;
+  return [...weeklyMrr.entries()]
+    .sort(([first], [second]) => first.localeCompare(second))
+    .map(([date, value]) => {
+      cumulative += value;
+      return { date, value: cumulative };
+    });
+};
 
-Plotly.newPlot('chart-country', [{
-  x: DATA.country_values, y: DATA.countries, type: 'bar', orientation: 'h',
-  marker: { color: DATA.PRIMARY },
-  text: DATA.country_values.map(String), textposition: 'outside', cliponaxis: false,
-  textfont: { ...FONT },
-  hovertemplate: '<b>%{y}</b><br>%{x} users<extra></extra>',
-}], layoutFor('linear', 'category', {
-  margin: { l: 120, r: 40, t: 8, b: 32 },
-  xaxis: { ...AXIS_X, type: 'linear', showticklabels: false, rangemode: 'tozero' },
-  yaxis: { ...AXIS_Y, type: 'category', automargin: true },
-}), config);
+const renderKpis = rows => {
+  const totalMrr = rows.reduce((sum, row) => sum + row.mrr, 0);
+  const averageMrr = rows.length ? totalMrr / rows.length : 0;
+  document.getElementById('total-mrr').textContent = currencyWhole.format(totalMrr);
+  document.getElementById('total-users').textContent = numberFormat.format(rows.length);
+  document.getElementById('avg-mrr').textContent = currencyCents.format(averageMrr);
+  if (rows.length) {
+    const firstDate = rows.reduce((earliest, row) => row.signup_date < earliest ? row.signup_date : earliest, rows[0].signup_date);
+    const lastDate = rows.reduce((latest, row) => row.signup_date > latest ? row.signup_date : latest, rows[0].signup_date);
+    document.getElementById('page-subtitle').textContent = `${formatDate(firstDate)} — ${formatDate(lastDate)} · ${numberFormat.format(rows.length)} signups`;
+  } else {
+    document.getElementById('page-subtitle').textContent = 'No signups match the selected filters';
+  }
+};
 
-Plotly.newPlot('chart-seats', [{
-  x: DATA.plan_labels, y: DATA.seats, type: 'bar',
-  marker: { color: [DATA.COLORWAY[2], DATA.COLORWAY[0], DATA.COLORWAY[1]] },
-  text: DATA.seats.map(String), textposition: 'outside', cliponaxis: false,
-  textfont: { ...FONT },
-  hovertemplate: '<b>%{x}</b><br>%{y} seats<extra></extra>',
-}], layoutFor('category', 'linear', { yaxis: { ...AXIS_Y, type: 'linear', showticklabels: false, rangemode: 'tozero' } }), config);
+const countryClickHandler = event => {
+  const country = event.points && event.points.length ? event.points[0].y : null;
+  if (!country) return;
+  state.country = state.country === country ? null : country;
+  renderDashboard();
+};
+const countryHoverHandler = event => {
+  const chart = document.getElementById('chart-country');
+  chart.style.cursor = event.points && event.points.length ? 'pointer' : 'default';
+};
+const countryUnhoverHandler = () => {
+  document.getElementById('chart-country').style.cursor = 'pointer';
+};
+const bindCountryChart = () => {
+  const chart = document.getElementById('chart-country');
+  if (!chart || typeof chart.on !== 'function') return;
+  if (typeof chart.removeListener === 'function') {
+    chart.removeListener('plotly_click', countryClickHandler);
+    chart.removeListener('plotly_hover', countryHoverHandler);
+    chart.removeListener('plotly_unhover', countryUnhoverHandler);
+  }
+  chart.on('plotly_click', countryClickHandler);
+  chart.on('plotly_hover', countryHoverHandler);
+  chart.on('plotly_unhover', countryUnhoverHandler);
+  chart.style.cursor = 'pointer';
+};
+
+const renderCountryChart = rows => {
+  const counts = new Map();
+  rows.forEach(row => counts.set(row.country, (counts.get(row.country) || 0) + 1));
+  const countries = [...counts.entries()].sort(([first, firstCount], [second, secondCount]) => (
+    secondCount - firstCount || first.localeCompare(second)
+  ));
+  const countryNames = countries.map(([country]) => country);
+  const countryValues = countries.map(([, count]) => count);
+  const countryColors = countryNames.map(country => (
+    state.country && country !== state.country ? '#D0D5DD' : DATA.PRIMARY
+  ));
+  const chart = document.getElementById('chart-country');
+  const countryAriaLabel = countryNames.map((country, index) => `${country}: ${countryValues[index]} users`).join(', ');
+  const selectedCountryAria = state.country ? ` Selected country: ${state.country}.` : '';
+  chart.setAttribute('aria-label', `${countryAriaLabel}.${selectedCountryAria}`);
+
+  const result = Plotly.react('chart-country', [{
+    x: countryValues,
+    y: countryNames,
+    type: 'bar',
+    orientation: 'h',
+    marker: { color: countryColors },
+    text: countryValues.map(String),
+    textposition: 'outside',
+    cliponaxis: false,
+    textfont: { ...FONT },
+    hovertemplate: '<b>%{y}</b><br>%{x} users<extra></extra>',
+  }], layoutFor('linear', 'category', {
+    margin: { l: 120, r: 40, t: 8, b: 32 },
+    xaxis: { ...AXIS_X, type: 'linear', showticklabels: false, rangemode: 'tozero' },
+    yaxis: { ...AXIS_Y, type: 'category', automargin: true, autorange: 'reversed' },
+  }), config);
+  if (result && typeof result.then === 'function') result.then(bindCountryChart);
+  else bindCountryChart();
+};
+
+const renderCharts = rows => {
+  const series = mrrSeries(rows);
+  Plotly.react('chart-mrr', [{
+    x: series.map(point => point.date), y: series.map(point => point.value),
+    type: 'scatter', mode: 'lines', fill: 'tozeroy',
+    line: { color: DATA.PRIMARY, width: 2.5 },
+    fillcolor: 'rgba(127, 86, 217, 0.08)',
+    hovertemplate: '%{x|%b %d, %Y}<br><b>$%{y:,.0f}</b><extra></extra>',
+  }], layoutFor('date', 'linear', {
+    yaxis: { ...AXIS_Y, type: 'linear', tickprefix: '$', separatethousands: true },
+  }), config);
+
+  const planCounts = DATA.plan_options.map(plan => rows.filter(row => row.plan === plan).length);
+  Plotly.react('chart-plan', [{
+    x: DATA.plan_options, y: planCounts, type: 'bar', marker: { color: DATA.PRIMARY },
+    text: planCounts.map(String), textposition: 'outside', cliponaxis: false,
+    textfont: { ...FONT }, hovertemplate: '<b>%{x}</b><br>%{y} users<extra></extra>',
+  }], layoutFor('category', 'linear', {
+    yaxis: { ...AXIS_Y, type: 'linear', showticklabels: false, rangemode: 'tozero' },
+  }), config);
+
+  const seats = DATA.plan_options.map(plan => rows
+    .filter(row => row.plan === plan)
+    .reduce((sum, row) => sum + row.seats, 0));
+  const seatColors = DATA.plan_options.map((_, index) => DATA.COLORWAY[(index + 2) % DATA.COLORWAY.length]);
+  Plotly.react('chart-seats', [{
+    x: DATA.plan_options, y: seats, type: 'bar', marker: { color: seatColors },
+    text: seats.map(String), textposition: 'outside', cliponaxis: false,
+    textfont: { ...FONT }, hovertemplate: '<b>%{x}</b><br>%{y} seats<extra></extra>',
+  }], layoutFor('category', 'linear', {
+    yaxis: { ...AXIS_Y, type: 'linear', showticklabels: false, rangemode: 'tozero' },
+  }), config);
+};
+
+const renderDashboard = () => {
+  const rowsForPlansAndMonths = baseRows();
+  const availableCountries = new Set(rowsForPlansAndMonths.map(row => row.country));
+  if (state.country && !availableCountries.has(state.country)) state.country = null;
+  const rowsForMetrics = metricRows(rowsForPlansAndMonths);
+  renderKpis(rowsForMetrics);
+  renderCharts(rowsForMetrics);
+  renderCountryChart(rowsForPlansAndMonths);
+};
+
+document.getElementById('plan-filter').addEventListener('change', event => {
+  state.plan = event.target.value;
+  renderDashboard();
+});
+document.getElementById('month-filter').addEventListener('change', event => {
+  state.month = event.target.value;
+  renderDashboard();
+});
+
+renderDashboard();
 </script>
 </body>
 </html>
